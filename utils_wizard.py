@@ -102,10 +102,14 @@ def get_working_directory(choice=None):
         working_dir = './'
 
     elif choice == '2':
+        #
         print('You will use another directory as working directory.')
         dirpath = raw_input('Please enter the path to working directory: ')
+        #
+        if not os.path.exists(dirpath):
+            os.makedirs(dirpath)
         os.chdir(dirpath)
-        print(os.getcwd())
+        #
         working_dir = dirpath
 
     elif choice == 'q':
