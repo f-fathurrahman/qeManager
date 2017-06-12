@@ -36,18 +36,79 @@ class SystemNameList:
         self.nr3s = None
         self.nosym = None
         self.nosym_evc = None
-        """
-        noinv | no_t_rev | force_symmorphic | use_all_frac | occupations | one_atom_occupations |
-        starting_spin_angle | degauss | smearing | nspin | noncolin | ecfixed | qcutz | q2sigma |
-        input_dft | exx_fraction | screening_parameter | exxdiv_treatment | x_gamma_extrapolation |
-        ecutvcut | nqx1 | nqx2 | nqx3 | lda_plus_u | lda_plus_u_kind | Hubbard_U | Hubbard_J0 |
-        Hubbard_alpha | Hubbard_beta | Hubbard_J(i,ityp) | starting_ns_eigenvalue(m,ispin,I) |
-        U_projection_type | edir | emaxpos | eopreg | eamp | angle1 | angle2 | constrained_magnetization
-        | fixed_magnetization | lambda | report | lspinorb | assume_isolated | esm_bc | esm_w |
-        esm_efield | esm_nfit | fcp_mu | vdw_corr | london | london_s6 | london_c6 | london_rvdw |
-        london_rcut | ts_vdw_econv_thr | ts_vdw_isolated | xdm | xdm_a1 | xdm_a2 | space_group | uniqueb
-        | origin_choice | rhombohedral | zmon | realxz | block | block_1 | block_2 | block_height
-        """
+
+        self.noinv = None
+        self.no_t_rev = None
+        self.force_symmorphic = None
+        self.use_all_frac = None
+        self.occupations = None
+        self.one_atom_occupations = None
+        self.starting_spin_angle = None
+        self.degauss = None
+        self.smearing = None
+        self.nspin = None
+        self.noncolin = None
+        self.ecfixed = None
+        self.qcutz = None
+        self.q2sigma = None
+        self.input_dft = None
+
+        self.exx_fraction = None
+        self.screening_parameter = None
+        self.exxdiv_treatment = None
+        self.x_gamma_extrapolation = None
+        self.ecutvcut = None
+        self.nqx1 = None
+        self.nqx2 = None
+        self.nqx3 = None
+        self.lda_plus_u = None
+        self.lda_plus_u_kind = None
+        self.Hubbard_U = None
+        self.Hubbard_J0 = None
+        self.Hubbard_alpha = None
+        self.Hubbard_beta = None
+        #Hubbard_J(i,ityp)
+        #starting_ns_eigenvalue(m,ispin,I)
+        self.U_projection_type = None
+        self.edir = None
+        self.emaxpos = None
+        self.eopreg = None
+        self.eamp = None
+        self.angle1 = None
+        self.angle2 = None
+        self.constrained_magnetization = None
+        self.fixed_magnetization = None
+        #lambda
+        self.report = None
+        self.lspinorb = None
+        self.assume_isolated = None
+        self.esm_bc = None
+        self.esm_w = None
+        self.esm_efield = None
+        self.esm_nfit = None
+        self.fcp_mu = None
+        self.vdw_corr = None
+        self.london = None
+        self.london_s6 = None
+        self.london_c6 = None
+        self.london_rvdw = None
+        self.london_rcut = None
+        self.ts_vdw_econv_thr = None
+        self.ts_vdw_isolated = None
+        self.xdm = None
+        self.xdm_a1 = None
+        self.xdm_a2 = None
+        self.space_group = None
+        self.uniqueb = None
+        self.origin_choice = None
+        self.rhombohedral = None
+        self.zmon = None
+        self.realxz = None
+        self.block = None
+        self.block_1 = None
+        self.block_2 = None
+        self.block_height = None
+
 
     def set_ecutwfc(self,ecutwfc):
         self.ecutwfc = ecutwfc
