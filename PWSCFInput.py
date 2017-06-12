@@ -16,7 +16,8 @@ class PWSCFInput:
     A simple Python class to generate PWSCF input
     """
 
-    def __init__(self, atoms, pspFiles, filename=None, move_atoms=False):
+    def __init__(self, atoms, pspFiles, filename=None, move_atoms=False,
+                 gamma_only=False):
 
         self.atoms = atoms
         self.pspFiles = pspFiles
@@ -25,6 +26,7 @@ class PWSCFInput:
         else:
             self.filename = filename
         self.move_atoms = move_atoms
+        self.gamma_only = gamma_only
         #
         self.CONTROL = ControlNameList()
         self.SYSTEM = SystemNameList(atoms)
@@ -42,7 +44,8 @@ class PWSCFInput:
         if self.move_atoms:
             self.IONS.write_all(f=inpFile)
         write_atomic_species( self.atoms, pspFiles=self.pspFiles, f=inpFile )
-        write_atomic_positions( self.atoms, f=inpFile)
+        write_atomic_positions( self.atoms, f=inpFile )
+        write_kpoints( f=inpFile, gamma_only=self.gamma_only )
         write_cell( self.atoms, f=inpFile )
         #
         inpFile.close()

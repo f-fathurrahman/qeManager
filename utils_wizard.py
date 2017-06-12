@@ -3,14 +3,43 @@ from __future__ import print_function
 import os
 import numpy as np
 
+import ase.io
+from ase.units import Bohr
+
 from globals_wizard import *
 
 
-def setup_atoms(xyzfile=None):
+def setup_atoms_molecules(xyzfile=None,bounding_box=None):
+    print('')
+    print('Setting up molecule:')
+    print('--------------------')
+    print('')
+    if xyzfile == None:
+        print('Current directory: %s' % os.getcwd())
+        xyzfile = raw_input('Please specify path to xyz file: ')
+
+    if bounding_box == None:
+        bbox_in = raw_input('Please specify bounding box dimensions (in Bohr): ')
+        Lx = float( bbox_in.split()[0] )
+        Ly = float( bbox_in.split()[1] )
+        Lz = float( bbox_in.split()[2] )
+        print('Using bounding box dimensions: [%.5f,%.5f,%.5f] bohr' % (Lx, Ly, Lz))
+
+    atoms = ase.io.read(xyzfile)
+    atoms.set_pbc([True,True,True])
+    cell = np.array([Lx,Ly,Lz])*Bohr
+    atoms.set_cell(cell)
+    atoms.center()
+
+    return atoms
 
 
 
 def setup_pseudopotentials(atoms, choice=None):
+    print('')
+    print('Setting up pseudopotentials:')
+    print('----------------------------')
+    print('')
     #
     if choice == None:
         print('Next, we need to setup the pseudopotentials.')
@@ -28,13 +57,17 @@ def setup_pseudopotentials(atoms, choice=None):
         choice = raw_input('Your choice: ')
     #
     species_list = np.unique(atoms.get_chemical_symbols())
-    print(species_list)
+    for s in species_list:
+        print('Species: %s' % s)
 
+    pspFiles = None
     if choice == '1':
+        pspFiles = []
         if not os.path.exists('./pspots'):
             os.makedirs('./pspots')
         for s in species_list:
             os.system('cp ' + GTH_PSP_HOME + '/' + s + '.*.gth ./pspots')
+        pspFiles = os.listdir('./pspots')
 
     elif choice == '2':
         print('')
@@ -42,11 +75,16 @@ def setup_pseudopotentials(atoms, choice=None):
 
     else:
         pass
+    #
+    return pspFiles
 
 
 def get_working_directory(choice=None):
+    print('')
+    print('Setting up working directory:')
+    print('-----------------------------')
+    print('')
     if choice == None:
-        print('')
         print('You need to choose a working directory.')
         print('')
         print('[1] Choose the current directory as working directory')

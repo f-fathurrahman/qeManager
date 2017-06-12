@@ -1,0 +1,28 @@
+&CONTROL
+  calculation = 'scf'
+  prefix = 'pwscf'
+  nstep = 1000
+  wf_collect = True
+  pseudo_dir = './pspots'
+  tprnfor = True
+  restart_mode = 'from_scratch'
+  outdir = './tmp'
+/
+
+&SYSTEM
+  ecutwfc = 30.0
+  ibrav = 0
+  nat = 4
+  ntyp = 2
+  ecutrho = 120.0
+/
+
+&ELECTRONS
+  conv_thr = 1e-06
+  mixing_beta = 0.7
+  electron_maxstep = 150
+  diagonalization = 'david'
+  mixing_ndim = 8
+  mixing_mode = 'plain'
+/
+

@@ -1,15 +1,22 @@
 from __future__ import print_function
 
-import sys
-sys.path.append('../')
-
 import ase.io
 
+import sys
+sys.path.append('/home/efefer/WORKS/my_github_repos/qeManager/')
 from utils_wizard import *
-
-atoms = ase.io.read('structures/NH3.xyz')
+from PWSCFInput import *
 
 working_dir = get_working_directory()
 print(working_dir)
 
-setup_pseudopotentials(atoms)
+atoms = setup_atoms_molecules()
+
+pspFiles = setup_pseudopotentials(atoms)
+print(pspFiles)
+
+
+pwinput = PWSCFInput(atoms, pspFiles, filename='PWINPUT')
+
+pwinput.CONTROL.pseudo_dir = './pspots'
+pwinput.write()

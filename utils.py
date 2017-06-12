@@ -4,6 +4,12 @@ import numpy as np
 
 import sys
 
+def write_kpoints(f=None, kpts=None, gamma_only=False):
+    if gamma_only:
+        f.write('K_POINTS gamma\n')
+        f.write('\n')
+
+
 def write_atomic_species(atoms, f=None, pspFiles=None, masses=None):
     if f==None:
         f = sys.stdout

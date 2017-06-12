@@ -4,7 +4,9 @@ from ase import Atoms
 from ase.units import Bohr
 import ase.io
 
-from PWSCFInput import *
+import sys
+sys.path.append('/home/efefer/WORKS/my_github_repos/')
+from qeManager import *
 
 atoms = ase.io.read('structures/NH3.xyz')
 
@@ -16,7 +18,7 @@ atoms.center()
 
 pspFiles = ['H.q1.gth', 'N.q5.gth']
 
-pwinput = PWSCFInput(atoms, pspFiles, filename='PWINPUT', move_atoms=True)
+pwinput = PWSCFInput(atoms, pspFiles, filename='PWINPUT', move_atoms=True, gamma_only=True)
 
 pwinput.CONTROL.pseudo_dir = 'GTH_PBE_2015'
 pwinput.CONTROL.calculation = 'relax'
