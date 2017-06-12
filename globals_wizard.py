@@ -1,6 +1,7 @@
 import os
 
-QEMANAGER_HOME = os.getcwd()
+# How
+QEMANAGER_HOME = '/home/efefer/WORKS/my_github_repos/qeManager'
 GTH_PSP_HOME = QEMANAGER_HOME + '/GTH_PBE'
 
 print QEMANAGER_HOME
