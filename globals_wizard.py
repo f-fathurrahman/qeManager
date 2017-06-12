@@ -1,0 +1,7 @@
+import os
+
+QEMANAGER_HOME = os.getcwd()
+GTH_PSP_HOME = QEMANAGER_HOME + '/GTH_PBE'
+
+print QEMANAGER_HOME
+print GTH_PSP_HOME

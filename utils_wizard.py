@@ -1,6 +1,18 @@
 from __future__ import print_function
 import os
 
+def setup_pseudopotentials(atoms):
+    print('Next, we need to setup the pseudopotentials.')
+    print('We will copy the needed PBE GTH pseudopotentials')
+    print('in the ./pspot directory.')
+    print('Alternatively you can setup the pseudopotentials manually later')
+    print('')
+    print('What do you want to do?')
+    print('')
+    print('[1] Use the PBE GTH pseudopotentials')
+    print('[2] Setup my own pseudopotentials')
+
+
 def get_working_directory():
     print('First, you need to choose a working directory.')
     print('')
