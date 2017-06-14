@@ -4,10 +4,15 @@ import numpy as np
 
 import sys
 
-def write_kpoints(f=None, kpts=None, gamma_only=False):
+def write_kpoints(f=None, kpts=None, weights=None gamma_only=False):
     if gamma_only:
         f.write('K_POINTS gamma\n')
         f.write('\n')
+    else
+        f.write('K_POINTS')
+        Nkpts = kpts.shape[0]
+        for ik in Nkpts:
+            f.write('%.9f %.9f %.9f %.9f\n' % (kpts[0,ik],kpts[1,ik],kpts[2,ik]))
 
 
 def write_atomic_species(atoms, f=None, pspFiles=None, masses=None):
