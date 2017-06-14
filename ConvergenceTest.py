@@ -1,4 +1,5 @@
 from PWSCFInput import *
+from utils_read import *
 
 class ConvergenceTest:
 
@@ -20,11 +21,27 @@ class ConvergenceTest:
         self.inputs_have_been_written = False
 
 
-    def write(self,inpName):
-        pass
-
     def run(self):
-        pass
+        """
+        one-time run
+        """
+        #
+        if self.what == 'ecutwfc':
+            for e in self.values:
+                #
+                inpName = 'PWINPUT_' + str(e)
+                self.pwinput.filename = inpName
+                self.pwinput.SYSTEM.set_ecutwfc(e)
+                self.pwinput.write()
+                #
+                outName = 'LOG_' + str(e)
+                os.system('pw.x < ' + inpName + ' > ' + outName)
+                #
+                energies.append( read_pwscf_energy(outName) )
+        #
+        else:
+            pass
+
 
     def write_all(self):
         """
