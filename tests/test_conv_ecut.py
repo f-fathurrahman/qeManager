@@ -19,6 +19,16 @@ atoms.center()
 pspFiles = ['H.q1.gth', 'N.q5.gth']
 
 pwinput = PWSCFInput(atoms, pspFiles, filename='PWINPUT', move_atoms=True, gamma_only=True)
+pwinput.CONTROL.pseudo_dir = '../GTH_PBE/'
+conv_test = ConvergenceTest( pwinput, what='ecutwfc', values=np.arange(20.,100.,2.))
 
-conv_test = ConvergenceTest( pwinput, what='ecutwfc', values=np.arange(20.,50.,2.))
-conv_test.write()
+#conv_test.run()
+ecut, ene = conv_test.read()
+
+#import matplotlib.pyplot as plt
+#plt.clf()
+
+ref = ene[-1]
+Ndata = len(ecut)
+for i in range(Ndata):
+    print('%10.3f %18.10f %18.10f' % (ecut[i], ene[i], ene[i]-ref))

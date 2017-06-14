@@ -3,6 +3,9 @@ from ase.units import Bohr, Ry
 import numpy as np
 
 def read_pwscf_energy(logfile):
+    """
+    XXX: Can result in forever loop !!!! Need to fix this
+    """
     f = open(logfile,'r')
     line = f.readline()
     while not ('!    total energy' in line):

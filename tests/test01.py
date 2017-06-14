@@ -4,11 +4,14 @@ from ase import Atoms
 from ase.units import Bohr
 import ase.io
 
-from ControlNameList import *
-from SystemNameList import *
-from ElectronsNameList import *
-from IonsNameList import *
-from utils import *
+import sys
+sys.path.append('/home/efefer/WORKS/my_github_repos/')
+from qeManager import *
+
+from qeManager.ControlNameList import *
+from qeManager.SystemNameList import *
+from qeManager.ElectronsNameList import *
+from qeManager.IonsNameList import *
 
 atoms = ase.io.read('structures/NH3.xyz')
 

@@ -1,5 +1,7 @@
 from PWSCFInput import *
 from utils_read import *
+import os
+import numpy as np
 
 class ConvergenceTest:
 
@@ -17,6 +19,14 @@ class ConvergenceTest:
         self.pwinput = pwinput
         self.what = what
         self.values = values
+        self.Ndata = len(values)
+        #
+        self.energies = None
+        self.inpFiles = []
+        self.outFiles = []
+        for v in values:
+            self.inpFiles.append('PWINPUT_' + str(v))
+            self.outFiles.append('LOG_' + str(v))
         #
         self.inputs_have_been_written = False
 
@@ -26,33 +36,43 @@ class ConvergenceTest:
         one-time run
         """
         #
-        if self.what == 'ecutwfc':
-            for e in self.values:
-                #
-                inpName = 'PWINPUT_' + str(e)
-                self.pwinput.filename = inpName
-                self.pwinput.SYSTEM.set_ecutwfc(e)
-                self.pwinput.write()
-                #
-                outName = 'LOG_' + str(e)
-                os.system('pw.x < ' + inpName + ' > ' + outName)
-                #
-                energies.append( read_pwscf_energy(outName) )
+        if not self.inputs_have_been_written:
+            self.write()
         #
+        if self.what == 'ecutwfc':
+            for i in range(self.Ndata):
+                os.system('pw.x < ' + self.inpFiles[i] + ' > ' + self.outFiles[i])
         else:
-            pass
+            raise RuntimeError('what = %s is not implemented yet' % (self.what))
 
 
-    def write_all(self):
+    def write(self):
         """
         writes only the required input files
         """
+        #
+        if self.what == 'ecutwfc':
+            for i in range(self.Ndata):
+                self.pwinput.filename = self.inpFiles[i]
+                self.pwinput.SYSTEM.set_ecutwfc(self.values[i])
+                self.pwinput.write()
+        #
+        else:
+            raise RuntimeError('what = %s is not implemented yet' % (self.what))
+        #
         self.inputs_have_been_written = True
-        pass
 
-    def run_all(self):
+
+    def read(self):
         """
+        Read data
         """
-        if not self.inputs_have_been_written:
-            self.write()
-        pass
+        if self.what == 'ecutwfc':
+            energies = []
+            for i in range(self.Ndata):
+                energies.append( read_pwscf_energy(self.outFiles[i]) )
+            self.energies = np.array(energies)
+            return self.values, self.energies
+        #
+        else:
+            raise RuntimeError('what = %s is not implemented yet' % (self.what))
