@@ -4,8 +4,11 @@ import os
 import numpy as np
 
 class ConvergenceTest:
+    """
+    A class for doing 1D convergence test.
+    """
 
-    def __init__(self, pwinput, what=None, values=None):
+    def __init__(self, pwinput, what=None, values=None, prefixInp='PWINPUT_', prefixOut='LOG_'):
         """
         `what` can be one of ecutwfc, kpts
         `values`
@@ -22,11 +25,14 @@ class ConvergenceTest:
         self.Ndata = len(values)
         #
         self.energies = None
+        #
+        self.prefixInp = prefixInp  # XXX need to save this ?
+        self.prefixOut = prefixOut
         self.inpFiles = []
         self.outFiles = []
         for v in values:
-            self.inpFiles.append('PWINPUT_' + what + '_' + str(v))
-            self.outFiles.append('LOG_' + what + '_' + str(v))
+            self.inpFiles.append(self.prefixInp + what + '_' + str(v))
+            self.outFiles.append(self.prefixOut + what + '_' + str(v))
         #
         self.inputs_have_been_written = False
 
@@ -39,11 +45,8 @@ class ConvergenceTest:
         if not self.inputs_have_been_written:
             self.write()
         #
-        if self.what == 'ecutwfc':
-            for i in range(self.Ndata):
-                os.system('pw.x < ' + self.inpFiles[i] + ' > ' + self.outFiles[i])
-        else:
-            raise RuntimeError('what = %s is not implemented yet' % (self.what))
+        for i in range(self.Ndata):
+            os.system('pw.x < ' + self.inpFiles[i] + ' > ' + self.outFiles[i])
 
 
     def write(self):
@@ -73,12 +76,8 @@ class ConvergenceTest:
         """
         Read data
         """
-        if self.what == 'ecutwfc':
-            energies = []
-            for i in range(self.Ndata):
-                energies.append( read_pwscf_energy(self.outFiles[i]) )
-            self.energies = np.array(energies)
-            return self.values, self.energies
-        #
-        else:
-            raise RuntimeError('what = %s is not implemented yet' % (self.what))
+        energies = []
+        for i in range(self.Ndata):
+            energies.append( read_pwscf_energy(self.outFiles[i]) )
+        self.energies = np.array(energies)
+        return self.values, self.energies

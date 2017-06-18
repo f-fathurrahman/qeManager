@@ -20,6 +20,6 @@ pspFiles = ['H.q1.gth', 'N.q5.gth']
 
 pwinput = PWSCFInput(atoms, pspFiles, filename='PWINPUT', move_atoms=True, gamma_only=True)
 pwinput.CONTROL.pseudo_dir = '../GTH_PBE/'
-conv_test = ConvergenceTest( pwinput, what='ecutwfc', values=np.arange(20.,100.,2.))
+conv_test = ConvergenceTest( pwinput, what='ecutwfc', values=np.arange(20.,100.,2.) )
 
 conv_test.write()
