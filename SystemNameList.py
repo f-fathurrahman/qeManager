@@ -109,10 +109,20 @@ class SystemNameList:
         self.block_2 = None
         self.block_height = None
 
-
     def set_ecutwfc(self,ecutwfc):
         self.ecutwfc = ecutwfc
         self.ecutrho = 4.0*ecutwfc
+
+    def set_spinpolarized(self):
+        self.nspin = 2
+        self.starting_magnetization = []
+        for i in range(self.ntyp):
+            self.starting_magnetization.append(0.5)
+
+    def set_smearing(self,smearing_type='mv',degauss=0.01):
+        self.occupations = 'smearing'
+        self.smearing = smearing_type
+        self.degauss = degauss
 
     def write(self, f=None):
         if f == None:
@@ -136,6 +146,10 @@ class SystemNameList:
             if not( sdict[k] == None ):
                 if type(sdict[k]) == str:
                     f.write('  %s = \'%s\'\n' % (k,sdict[k]))
+                elif type(sdict[k]) == list:
+                    Nlist = len(sdict[k])
+                    for i in range(Nlist):
+                        f.write('  %s(%d) = %f\n' % (k,i+1,sdict[k][i]))
                 else:
                     f.write('  %s = %s\n' % (k,sdict[k]))
         f.write('/\n\n')

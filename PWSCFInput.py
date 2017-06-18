@@ -34,6 +34,15 @@ class PWSCFInput:
         self.IONS = IonsNameList()
 
 
+    def set_spinpolarized(self):
+        self.SYSTEM.set_spinpolarized()
+
+    def set_ecutwfc(self,ecutwfc):
+        self.SYSTEM.set_ecutwfc(ecutwfc)
+
+    def set_smearing(self,smearing_type='mv',degauss=0.01):
+        self.SYSTEM.set_smearing(smearing_type=smearing_type,degauss=degauss)
+
     def write(self):
         #
         inpFile = open(self.filename,'w')
