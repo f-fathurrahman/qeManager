@@ -12,7 +12,7 @@ class ConvergenceTest:
         """
         #
         if what == None and values==None:
-            raise RuntimeWarning('Value of what is set to ecutwfc')
+            raise RuntimeWarning('Test convergence is set to ecutwfc')
             self.what = 'ecutwfc'
             self.values = np.arange(20,80,10)
         #
@@ -25,8 +25,8 @@ class ConvergenceTest:
         self.inpFiles = []
         self.outFiles = []
         for v in values:
-            self.inpFiles.append('PWINPUT_' + str(v))
-            self.outFiles.append('LOG_' + str(v))
+            self.inpFiles.append('PWINPUT_' + what + '_' + str(v))
+            self.outFiles.append('LOG_' + what + '_' + str(v))
         #
         self.inputs_have_been_written = False
 
@@ -55,6 +55,12 @@ class ConvergenceTest:
             for i in range(self.Ndata):
                 self.pwinput.filename = self.inpFiles[i]
                 self.pwinput.SYSTEM.set_ecutwfc(self.values[i])
+                self.pwinput.write()
+        #
+        elif self.what == 'ecutrho':
+            for i in range(self.Ndata):
+                self.pwinput.filename = self.inpFiles[i]
+                self.pwinput.SYSTEM.ecutrho = self.values[i]
                 self.pwinput.write()
         #
         else:
