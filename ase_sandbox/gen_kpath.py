@@ -4,6 +4,15 @@ import sys
 
 def gen_kpath( atoms, lattice, Nkpts=60 ):
     #
+    points = special_points[lattice]
+    paths = parse_path_string(special_paths[lattice])
+    print(paths[0])
+    kpts_spec = [points[k] for k in paths[0]]
+    kpts, x, Xkpt = get_bandpath(kpts_spec,atoms.cell)
+    return kpts, x, Xkpt
+
+    """
+    #
     if lattice=='fcc':
         points = ibz_points[lattice]
         G = points['Gamma']
@@ -35,3 +44,4 @@ def gen_kpath( atoms, lattice, Nkpts=60 ):
         raise RuntimeError('Unknown lattice: %s' % lattice)
     #
     return kpts, x, Xkpt
+    """
