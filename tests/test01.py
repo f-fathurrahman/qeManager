@@ -13,7 +13,9 @@ from qeManager.SystemNameList import *
 from qeManager.ElectronsNameList import *
 from qeManager.IonsNameList import *
 
-atoms = ase.io.read('structures/NH3.xyz')
+from ase.build import molecule
+
+atoms = molecule('NH3')
 
 # set periodic  bounding box
 atoms.set_pbc([True,True,True])
@@ -37,7 +39,5 @@ ions_NL.write_all()
 
 pspFiles = ['H.q1.gth', 'N.q5.gth']
 write_atomic_species( atoms, pspFiles=pspFiles )
-
 write_atomic_positions(atoms)
-
 write_cell(atoms)

@@ -8,7 +8,8 @@ import sys
 sys.path.append('/home/efefer/WORKS/my_github_repos/')
 from qeManager import *
 
-atoms = ase.io.read('structures/NH3.xyz')
+from ase.build import molecule
+atoms = molecule('NH3')
 
 # set periodic  bounding box
 atoms.set_pbc([True,True,True])
