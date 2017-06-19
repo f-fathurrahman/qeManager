@@ -77,7 +77,10 @@ class ConvergenceTest:
         Read data
         """
         energies = []
+        forces = []
         for i in range(self.Ndata):
             energies.append( read_pwscf_energy(self.outFiles[i]) )
+            forces.append( read_pwscf_force(self.outFiles[i]) )
         self.energies = np.array(energies)
-        return self.values, self.energies
+        self.forces = forces
+        return self.values, self.energies, self.forces

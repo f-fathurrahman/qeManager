@@ -14,7 +14,7 @@ def read_pwscf_energy(logfile):
     return energy*Ry
 
 
-def read_pwscf_forces(logfile):
+def read_pwscf_force(logfile):
     f = open(logfile,'r')
 
     line = f.readline()
@@ -28,12 +28,12 @@ def read_pwscf_forces(logfile):
         line = f.readline()
     line = f.readline()
     #
-    forces = np.zeros( (Natoms,3) )
+    force = np.zeros( (Natoms,3) )
     for ia in range(Natoms):
         line = f.readline()
         #print line
-        forces[ia,0] = float( line.split()[6] )
-        forces[ia,1] = float( line.split()[7] )
-        forces[ia,2] = float( line.split()[8] )
+        force[ia,0] = float( line.split()[6] )
+        force[ia,1] = float( line.split()[7] )
+        force[ia,2] = float( line.split()[8] )
     f.close()
-    return forces*(Ry/Bohr)
+    return force*(Ry/Bohr)
