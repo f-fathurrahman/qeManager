@@ -30,9 +30,15 @@ class ConvergenceTest:
         self.prefixOut = prefixOut
         self.inpFiles = []
         self.outFiles = []
-        for v in values:
-            self.inpFiles.append(self.prefixInp + what + '_' + str(v))
-            self.outFiles.append(self.prefixOut + what + '_' + str(v))
+        if self.what == 'kpoints':
+            for v in values:
+                strv = str(v).strip('[]').replace(',','').replace(' ','_')
+                self.inpFiles.append(self.prefixInp + what + '_' + strv)
+                self.outFiles.append(self.prefixOut + what + '_' + strv)
+        else:
+            for v in values:
+                self.inpFiles.append(self.prefixInp + what + '_' + str(v))
+                self.outFiles.append(self.prefixOut + what + '_' + str(v))
         #
         self.inputs_have_been_written = False
 
@@ -64,6 +70,11 @@ class ConvergenceTest:
             for i in range(self.Ndata):
                 self.pwinput.filename = self.inpFiles[i]
                 self.pwinput.SYSTEM.ecutrho = self.values[i]
+                self.pwinput.write()
+        elif self.what == 'kpoints':
+            for i in range(self.Ndata):
+                self.pwinput.filename = self.inpFiles[i]
+                self.pwinput.Nk = self.values[i]
                 self.pwinput.write()
         #
         else:
