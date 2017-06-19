@@ -8,7 +8,7 @@ from ControlNameList import *
 from SystemNameList import *
 from ElectronsNameList import *
 from IonsNameList import *
-from utils import *
+from utils_write import *
 
 class PWSCFInput:
 
