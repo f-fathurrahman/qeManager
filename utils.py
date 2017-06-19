@@ -4,10 +4,17 @@ import numpy as np
 
 import sys
 
-def write_kpoints(f=None, kpts=None, weights=None, gamma_only=False):
+def write_kpoints(f=None, kpts=None, weights=None,
+                  Nk=[1,1,1], nkshift=[0,0,0],
+                  gamma_only=False,
+                  automatic=False):
     if gamma_only:
         f.write('K_POINTS gamma\n')
         f.write('\n')
+    elif automatic:
+        f.write('K_POINTS automatic\n')
+        f.write('%d %d %d %d %d %d\n\n' % (Nk[0], Nk[1], Nk[2],
+                 nkshift[0], nkshift[1], nkshift[2]))
     else:
         f.write('K_POINTS')
         Nkpts = kpts.shape[0]

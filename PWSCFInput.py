@@ -17,7 +17,7 @@ class PWSCFInput:
     """
 
     def __init__(self, atoms, pspFiles, filename=None, move_atoms=False,
-                 gamma_only=False):
+                 gamma_only=False, kpt_automatic=False, Nk=[1,1,1], nkshift=[0,0,0]):
 
         self.atoms = atoms
         self.pspFiles = pspFiles
@@ -27,6 +27,9 @@ class PWSCFInput:
             self.filename = filename
         self.move_atoms = move_atoms
         self.gamma_only = gamma_only
+        self.kpt_automatic = kpt_automatic
+        self.Nk = Nk
+        self.nkshift = nkshift
         #
         self.CONTROL = ControlNameList()
         self.SYSTEM = SystemNameList(atoms)
@@ -54,7 +57,8 @@ class PWSCFInput:
             self.IONS.write_all(f=inpFile)
         write_atomic_species( self.atoms, pspFiles=self.pspFiles, f=inpFile )
         write_atomic_positions( self.atoms, f=inpFile )
-        write_kpoints( f=inpFile, gamma_only=self.gamma_only )
+        write_kpoints( f=inpFile, gamma_only=self.gamma_only, automatic=self.kpt_automatic,
+                       Nk=self.Nk, nkshift=self.nkshift )
         write_cell( self.atoms, f=inpFile )
         #
         inpFile.close()
