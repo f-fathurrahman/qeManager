@@ -9,6 +9,7 @@ from SystemNameList import *
 from ElectronsNameList import *
 from IonsNameList import *
 from utils_write import *
+from utils import *
 
 class PWSCFInput:
 
@@ -35,6 +36,11 @@ class PWSCFInput:
         self.SYSTEM = SystemNameList(atoms)
         self.ELECTRONS = ElectronsNameList()
         self.IONS = IonsNameList()
+        # for bandstructure
+        self.bandstructure_mode = False
+        self.kpts = None
+        self.kweights = None
+        self.special_kcoords = None
 
 
     def set_spinpolarized(self):
@@ -45,6 +51,26 @@ class PWSCFInput:
 
     def set_smearing(self,smearing_type='mv',degauss=0.01):
         self.SYSTEM.set_smearing(smearing_type=smearing_type,degauss=degauss)
+
+    def set_calc_bands(self, lattice, Nkpts=60):
+        self.bandstructure_mode = True
+        self.kpt_automatic = False
+        self.gamma_only = False
+        self.CONTROL.calculation = 'bands'
+        self.CONTROL.verbosity = 'high'
+        #
+        kpts, x, Xkpt = gen_kpath( self.atoms, lattice, Nkpts=Nkpts )
+        Nkpts = len(x)
+        print("Nkpts = ", Nkpts)
+        for ik in range(Nkpts):
+            sys.stdout.write('%.8f %.8f %.8f %.8f\n' % (kpts[ik,0],kpts[ik,1],kpts[ik,2],x[ik]))
+        print(Xkpt)
+        #
+        self.bands_xcoords = x
+        self.kpts = kpts
+        self.kweights = np.ones(len(x))
+        self.specialk_xcoords = Xkpt
+
 
     def write(self):
         #
@@ -57,8 +83,16 @@ class PWSCFInput:
             self.IONS.write_all(f=inpFile)
         write_atomic_species( self.atoms, pspFiles=self.pspFiles, f=inpFile )
         write_atomic_positions( self.atoms, f=inpFile )
-        write_kpoints( f=inpFile, gamma_only=self.gamma_only, automatic=self.kpt_automatic,
+        #
+        if self.bandstructure_mode:
+            write_kpoints( f=inpFile, gamma_only=self.gamma_only, automatic=self.kpt_automatic,
+                       Nk=self.Nk, nkshift=self.nkshift,
+                       bandstructure=True,
+                       kpts=self.kpts, weights=self.kweights )
+        else:
+            write_kpoints( f=inpFile, gamma_only=self.gamma_only, automatic=self.kpt_automatic,
                        Nk=self.Nk, nkshift=self.nkshift )
+        #
         write_cell( self.atoms, f=inpFile )
         #
         inpFile.close()

@@ -1,7 +1,7 @@
 class PWSCFBandstructure:
 
-    def __init__(self):
-        pass
+    def __init__(self,pwinput):
+        self.pwinput = pwinput
 
     def write(self):
         pass

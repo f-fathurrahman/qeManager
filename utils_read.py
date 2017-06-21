@@ -3,6 +3,71 @@ from ase.units import Bohr, Ry
 import numpy as np
 import sys
 
+def get_Nbands_Nkpts(logfile):
+    f = open(logfile,'r')
+    #
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        # Read number of bands
+        if('number of Kohn-Sham states' in line):
+            Nbands = int( line.split()[4] )
+        # read number of k-points
+        if('number of k points' in line):
+            Nkpts = int( line.split()[4] )
+    #
+    return Nbands, Nkpts
+
+
+
+def read_bandstructure(logfile):
+    #
+    Nbands, Nkpts = get_Nbands_Nkpts(logfile)
+    #
+    ebands = np.zeros((Nbands,Nkpts))
+    #
+    ENE_PER_LINE = 8
+    #
+    f = open(logfile,'r')
+    #
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        #
+        Nline = Nbands/ENE_PER_LINE
+        Nextra = Nbands%ENE_PER_LINE
+        #
+        if('End of band structure calculation' in line):
+            #ikpt = 0
+            for ikpt in range(Nkpts):
+                f.readline()
+                f.readline()
+                f.readline()
+                ibnd = 0
+                for i in range(Nline):
+                    line = f.readline()
+                    #print(line,end='')
+                    for i in range(8):
+                        ebands[ibnd,ikpt] = float(line.split()[i])
+                        ibnd = ibnd + 1
+                #
+                if Nextra > 0:
+                    line = f.readline()
+                    #print(line,end='')
+                    for i in range(Nextra):
+                        ebands[ibnd,ikpt] = float(line.split()[i])
+                        ibnd  = ibnd + 1
+                #
+                print(ebands[:,ikpt])
+
+
+    print("Nkpts = ", Nkpts, " Nbands = ", Nbands)
+    f.close()
+    return ebands
+
+
 def read_pwscf_energy(logfile,last=True):
     """
     Read PWSCF energy
