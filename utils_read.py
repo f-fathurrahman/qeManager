@@ -3,6 +3,47 @@ from ase.units import Bohr, Ry
 import numpy as np
 import sys
 
+def read_fermi_level(filename):
+    f = open(filename,'r')
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        #
+        if('the Fermi energy' in line):
+            Efermi = float( line.split()[4] )
+    return Efermi
+
+def read_specialk_xcoords(filename):
+    f = open(filename,'r')
+    xcoords = []
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        #
+        if('high-symmetry' in line):
+            xcoords.append( float(line.split()[7]) )
+    f.close()
+    return np.array(xcoords)
+
+
+def read_bands_gnu(filband, Nbands, Nkpts ):
+    databands = np.loadtxt(filband)
+
+    ebands = np.zeros( (Nbands, Nkpts) )
+    kvec   = np.zeros( (Nbands, Nkpts) )
+
+    for ib in range(Nbands):
+        idx1 = (ib)*Nkpts
+        idx2 = (ib+1)*Nkpts
+        # For QE-6 no need to convert the band energy from Ry to eV
+        ebands[ib,:] = databands[idx1:idx2,1]
+        kvec[ib,:]   = databands[idx1:idx2,0]
+    #
+    return kvec, ebands
+
+
 def get_Nbands_Nkpts(logfile):
     f = open(logfile,'r')
     #
@@ -17,6 +58,7 @@ def get_Nbands_Nkpts(logfile):
         if('number of k points' in line):
             Nkpts = int( line.split()[4] )
     #
+    f.close()
     return Nbands, Nkpts
 
 
@@ -60,9 +102,8 @@ def read_bandstructure(logfile):
                         ebands[ibnd,ikpt] = float(line.split()[i])
                         ibnd  = ibnd + 1
                 #
-                print(ebands[:,ikpt])
-
-
+                #print(ebands[:,ikpt])
+    #
     print("Nkpts = ", Nkpts, " Nbands = ", Nbands)
     f.close()
     return ebands

@@ -4,6 +4,15 @@ import numpy as np
 
 import sys
 
+def write_bands_inp( filename='bands.inp', tmpdir="./tmp"):
+    #
+    f = open(filename, 'w')
+    f.write('&BANDS\n')
+    f.write('  outdir = \'%s\'\n' % tmpdir)
+    f.write('/\n')
+    f.close()
+
+
 def write_kpoints(f=None, kpts=None, weights=None,
                   Nk=[1,1,1], nkshift=[0,0,0],
                   gamma_only=False,
