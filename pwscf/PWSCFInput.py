@@ -4,12 +4,12 @@ from ase import Atoms
 from ase.units import Bohr
 import ase.io
 
-from ControlNameList import *
-from SystemNameList import *
-from ElectronsNameList import *
-from IonsNameList import *
-from utils_write import *
-from utils import *
+from .ControlNameList import *
+from .SystemNameList import *
+from .ElectronsNameList import *
+from .IonsNameList import *
+from .utils_write import *
+from ..utils import *
 
 class PWSCFInput:
 
