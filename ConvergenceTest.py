@@ -1,5 +1,5 @@
-from PWSCFInput import *
-from utils_read import *
+from .pwscf.PWSCFInput import *
+from .pwscf.utils_read import *
 import os
 import numpy as np
 

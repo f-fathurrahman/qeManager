@@ -113,6 +113,7 @@ def read_pwscf_energy(logfile,last=True):
     """
     Read PWSCF energy
     """
+    print('Reading energy for file: ', logfile)
     f = open(logfile,'r')
     energy = []
     while True:
@@ -120,7 +121,7 @@ def read_pwscf_energy(logfile,last=True):
         if not line:
             break
         if('!    total energy' in line):
-            sys.stdout.write(line)
+            #sys.stdout.write(line)
             energy.append( float(line.split()[4]) )
     #
     f.close()
@@ -132,6 +133,7 @@ def read_pwscf_energy(logfile,last=True):
 
 
 def read_pwscf_force(logfile,last=True):
+    print('Reading force for file: ', logfile)
     f = open(logfile,'r')
     all_force = []
 
@@ -156,8 +158,8 @@ def read_pwscf_force(logfile,last=True):
                 force[ia,1] = float( line.split()[7] )
                 force[ia,2] = float( line.split()[8] )
                 #
-                print()
-                print(force*Ry/Bohr)
+                #print()
+                #print(force*Ry/Bohr)
                 all_force.append(force)
     #
     f.close()
