@@ -4,9 +4,12 @@ from ase import Atoms
 from ase.units import Bohr
 import ase.io
 
+import numpy as np
+
 import sys
 sys.path.append('/home/efefer/WORKS/my_github_repos/')
-from qeManager import *
+
+from qeManager.pwscf import *
 
 from ase.build import molecule
 atoms = molecule('NH3')
