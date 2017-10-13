@@ -6,12 +6,8 @@ import ase.io
 
 import sys
 sys.path.append('/home/efefer/WORKS/my_github_repos/')
-from qeManager import *
 
-from qeManager.ControlNameList import *
-from qeManager.SystemNameList import *
-from qeManager.ElectronsNameList import *
-from qeManager.IonsNameList import *
+from qeManager.pwscf.ControlNameList import *
 
 from ase.build import molecule
 
