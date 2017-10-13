@@ -1,7 +1,7 @@
 PWINPUT*
 clean.sh
-work_*
 ex_LOG
+LOG*
 tmp
 *.xsf
 *.cube
