@@ -20,8 +20,8 @@ cell = np.array([16.0,16.0,16.0])*Bohr
 atoms.set_cell(cell)
 atoms.center()
 
-# Build PW input manually using *NameList classes.
-# ATOMIC_SPECIES and ATOMIC_POSITIONS cards are written using
+# Build PW input manually using `*NameList` classes.
+# `ATOMIC_SPECIES` and `ATOMIC_POSITIONS` cards are written using
 # several simple functions.
 
 ctrl_NL = ControlNameList()

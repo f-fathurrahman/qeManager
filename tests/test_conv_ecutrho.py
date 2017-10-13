@@ -6,7 +6,7 @@ import ase.io
 
 import sys
 sys.path.append('/home/efefer/WORKS/my_github_repos/')
-from qeManager import *
+from qeManager.pwscf import *
 
 atoms = ase.io.read('./structures/NH3.xyz')
 
@@ -31,6 +31,6 @@ conv_test = ConvergenceTest( pwinput, what='ecutrho', values=ecutrho )
 ecutrho, energies = conv_test.read()
 
 Ndata = len(ecutrho)
-Eref = energies[-1]
+Eref = energies[-1]  # take the most converged data (the last one) as the reference
 for i in range(Ndata):
     print("%10.5f %18.10f %18.10f" % (ecutrho[i], energies[i], energies[i]-Eref))

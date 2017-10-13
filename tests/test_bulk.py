@@ -6,7 +6,7 @@ from ase.build import bulk
 
 import sys
 sys.path.append('/home/efefer/WORKS/my_github_repos/')
-from qeManager import *
+from qeManager.pwscf import *
 
 atoms = bulk('Mo', cubic=True, a=6.0*Bohr)
 
