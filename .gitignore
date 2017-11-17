@@ -1,3 +1,5 @@
+*.chk
+
 PWINPUT*
 clean.sh
 ex_LOG
