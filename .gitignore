@@ -1,5 +1,19 @@
+# various NWChem files
+NWChemJob*
+*.b
+*.b^-1
+*.c
+*.db
+*.drv.hess
+*.gridpts.*
+*.movecs
+*.p
+*.zmat
+
+# G09 files
 *.chk
 
+# PWSCF files
 PWINPUT*
 clean.sh
 ex_LOG
