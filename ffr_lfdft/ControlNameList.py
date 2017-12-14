@@ -10,7 +10,7 @@ class ControlNameList:
         if f == None:
             f = sys.stdout
         #
-        f.write('&SYSTEM\n')
+        f.write('&CONTROL\n')
         sdict = self.__dict__
         for k in sdict:
             if not( sdict[k] == None ):

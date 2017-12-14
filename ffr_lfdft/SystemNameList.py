@@ -7,14 +7,18 @@ class SystemNameList:
     def __init__(self, atoms):
         self.ibrav = 8
         #
-        if any(atoms.pbc):
+        if all(atoms.pbc) == True:
+            # XXX these values are in angstrom
+            self.A = atoms.cell[0,0]
+            self.B = atoms.cell[1,1]
+            self.C = atoms.cell[2,2]
+        elif all(atoms.pbc) == False:
             self.A = 10.0
             self.B = 10.0
             self.C = 10.0
         else:
-            self.A = 10.0
-            self.B = 10.0
-            self.C = 10.0
+            raise RuntimeError('Mixed periodic and isolated BC is not supported yet')
+        #
         self.nat = len(atoms)
 
         self.ntyp = len( np.unique( atoms.get_atomic_numbers() ) )
@@ -23,7 +27,7 @@ class SystemNameList:
         self.nr2 = 45
         self.nr3 = 45
 
-        if not any(atoms.pbc):
+        if all(atoms.pbc) == False:
             self.assume_isolated = 'sinc'
         else:
             self.assume_isolated = 'none'
