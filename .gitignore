@@ -1,3 +1,5 @@
+*.swp
+
 # various NWChem files
 NWChemJob*
 *.b
