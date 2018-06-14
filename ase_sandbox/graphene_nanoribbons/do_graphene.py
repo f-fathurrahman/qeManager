@@ -10,7 +10,7 @@ ase.build.graphene_nanoribbon(n, m, type='zigzag',
        sheet=False, main_element='C', saturate_element='H')
 """
 
-atoms = graphene_nanoribbon( 2, 2, sheet=True, type='armchair')
+atoms = graphene_nanoribbon( 8, 8, sheet=True, type='armchair')
 atoms.set_pbc([True,True,True])
 atoms.write('orig.xyz')
 atoms.write('orig.xsf')
