@@ -17,14 +17,6 @@ def gen_kpath( cell, lattice, Nkpts=60 ):
     # probably using variable `paths`.
     return kpts, x, Xkpt
 
-def gen_fcc_cell(a):
-    cell = np.array( [[-1,0,1],[0,1,1],[-1,1,0]] )
-    return 0.5*a*cell
-
-def gen_cubic_cell(a):
-    cell = np.array( [[1,0,0], [0,1,0], [0,0,1]] )
-    return a*cell
-
 
 a = 5.0
 
