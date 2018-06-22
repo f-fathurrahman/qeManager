@@ -2,7 +2,7 @@
 import numpy as np
 from math import sqrt
 
-def gen_lattice_cubic(a):
+def gen_lattice_sc(a):
     cell = np.array( [[1,0,0], [0,1,0], [0,0,1]] )
     return a*cell
 
