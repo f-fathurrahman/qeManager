@@ -21,14 +21,29 @@ def gen_kpath( atoms, lattice, Nkpt=60 ):
     """
     #
     #points = special_points[lattice] #XXX change to get_special_points
-    points = get_special_points( atoms.get_cell(), lattice )
+    points = get_special_points( atoms.get_cell(), lattice=lattice )
     #
     paths = parse_path_string(special_paths[lattice])
-    #print(paths)
-    kpt_spec = [points[k] for k in paths[0]]
-    #print(kpt_spec)
-    kpt, x, Xkpt = get_bandpath(kpt_spec,atoms.cell,npoints=Nkpt)
+    Nsegment = len(paths)
     #
-    return kpt, x, Xkpt, paths[0], kpt_spec
+    print("paths = ", paths)
+    #
+    KPT = []
+    X = []
+    XKPT = []
+    KPT_SPEC = []
+    #
+    for isegment in range(Nsegment):
+        #print(paths)
+        kpt_spec = [points[k] for k in paths[isegment]]
+        #
+        kpt, x, Xkpt = get_bandpath(kpt_spec,atoms.cell,npoints=Nkpt)
+        #
+        KPT.append(kpt)
+        X.append(x)
+        XKPT.append(Xkpt)
+        KPT_SPEC.append(kpt_spec)
+    #
+    return KPT, X, XKPT, paths, KPT_SPEC
 
 
