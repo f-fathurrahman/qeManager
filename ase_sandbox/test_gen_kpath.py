@@ -11,217 +11,105 @@ import numpy as np
 from gen_kpath import *
 from gen_lattice_pwscf import *
 
-"""
-atoms = ase.build.bulk("Zn")
+def do_lattice(latt_name):
 
-atoms.write("Zn.xsf")
+    if latt_name == "cubic":
 
-kpts, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice='hexagonal')
-
-Nkpts = len(x)
-for ik in range(Nkpts):
-    sys.stdout.write('%.8f %.8f %.8f %.8f\n' % (kpts[ik,0],kpts[ik,1],kpts[ik,2],x[ik]))
-print(Xkpt)
-
-exit()
-"""
-
-def test_fcc():
+        print("--------------------")
+        print("Simple cubic lattice")
+        print("--------------------")
     
-    print("-----------")
-    print("FCC lattice")
-    print("-----------")
-    
-    atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
-    atoms.set_cell( gen_lattice_fcc(5.0) )
-    atoms.write("H_fcc.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice='fcc')
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write('%18.10f %18.10f %18.10f\n' % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+        atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_sc(5.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_sc.xsf")
 
-def test_sc():
-    
-    print("--------------------")
-    print("Simple cubic lattice")
-    print("--------------------")
-    
-    atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
-    atoms.set_cell( gen_lattice_sc(5.0) )
-    atoms.write("H_sc.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice="cubic")
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write("%18.10f %18.10f %18.10f\n" % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+    elif latt_name == "fcc":
 
+        print("-----------")
+        print("FCC lattice")
+        print("-----------")
+    
+        atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_fcc(5.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_fcc.xsf")
 
-def test_bcc():
-    
-    print("-----------")
-    print("BCC lattice")
-    print("-----------")
-    
-    atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
-    atoms.set_cell( gen_lattice_bcc(5.0) )
-    atoms.write("H_bcc.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice='bcc')
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write('%18.10f %18.10f %18.10f\n' % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+    elif latt_name == "bcc":
 
+        print("-----------")
+        print("BCC lattice")
+        print("-----------")
+    
+        atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_bcc(5.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_bcc.xsf")
 
-def test_hexagonal():
-    
-    print("-----------------")
-    print("Hexagonal lattice")
-    print("-----------------")
-    
-    atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
-    LatVecs = gen_lattice_hexagonal(5.0, 8.0)
-    atoms.set_cell( LatVecs )
-    #
-    atoms.write("H_hexagonal.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice='hexagonal')
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write('%18.10f %18.10f %18.10f\n' % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+    elif latt_name == "hexagonal":
 
+        print("-----------------")
+        print("Hexagonal lattice")
+        print("-----------------")
+    
+        atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_hexagonal(5.0, 8.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_hexagonal.xsf")
+    
+    elif latt_name == "tetragonal":
 
-def test_orthorhombic():
+        print("------------------")
+        print("Tetragonal lattice")
+        print("------------------")
     
-    print("--------------------")
-    print("Orthorhombic lattice")
-    print("--------------------")
-    
-    atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
-    LatVecs = gen_lattice_orthorhombic(5.0, 8.0, 6.0)
-    atoms.set_cell( LatVecs )
-    #
-    atoms.write("H_orthorhombic.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice='orthorhombic')
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write('%18.10f %18.10f %18.10f\n' % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+        atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_tetragonal_P(5.0, 6.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_tetragonal.xsf")
 
+    elif latt_name == "orthorhombic":
 
-def test_monoclinic():
+        print("--------------------")
+        print("Orthorhombic lattice")
+        print("--------------------")
     
-    print("------------------")
-    print("Monoclinic lattice")
-    print("------------------")
+        atoms = Atoms( [Atom('H', (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_orthorhombic(5.0, 8.0, 6.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_orthorhombic.xsf")
     
-    atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
-    LatVecs = gen_lattice_monoclinic(5.0, 8.0, 6.0, 80.0)
-    atoms.set_cell( LatVecs )
-    #
-    atoms.write("H_monoclinic.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice="monoclinic")
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write("%18.10f %18.10f %18.10f\n" % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+    elif latt_name == "rhombohedral type 1":
+    
+        print("-----------------------------")
+        print("Rhombohedral lattice (type 1)")
+        print("-----------------------------")
+    
+        atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_rhombohedral(5.0, 80.0) # gamma < 90 degree
+        atoms.set_cell( LatVecs )
+        #
+        atoms.write("H_rhombohedral.xsf")
+        #
+    elif latt_name == "monoclinic":
 
+        print("------------------")
+        print("Monoclinic lattice")
+        print("------------------")
+    
+        atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
+        LatVecs = gen_lattice_monoclinic(5.0, 8.0, 6.0, 80.0)
+        atoms.set_cell( LatVecs )
+        atoms.write("H_monoclinic.xsf")
+    
+    else:
 
-def test_tetragonal():
-    
-    print("------------------")
-    print("Tetragonal lattice")
-    print("------------------")
-    
-    atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
-    LatVecs = gen_lattice_tetragonal_P(5.0, 6.0)
-    atoms.set_cell( LatVecs )
-    #
-    atoms.write("H_tetragonal.xsf")
-    #
-    kpt, x, Xkpt, path_str, kpt_spec = gen_kpath(atoms,lattice="tetragonal")
-    #
-    Nkpt = len(x)
-    print(Nkpt)
-    for ik in range(Nkpt):
-        sys.stdout.write("%18.10f %18.10f %18.10f\n" % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
-    #
-    kpt_spec = np.array(kpt_spec)
-    Nkpt_spec = len(path_str)
-    print(Nkpt_spec)
-    for ik in range(Nkpt_spec):
-        sys.stdout.write("%18.10f %18.10f %18.10f %s\n" %
-                        (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
+        raise RuntimeError("Unknown lattice name:", lattice)
 
-
-def test_rhombohedral():
     
-    print("--------------------")
-    print("Rhombohedral lattice")
-    print("--------------------")
-    
-    atoms = Atoms( [Atom("H", (0.0, 0.0, 0.0))], pbc=True )
-    LatVecs = gen_lattice_rhombohedral(5.0, 80.0)
-    atoms.set_cell( LatVecs )
-    #
-    atoms.write("H_rhombohedral.xsf")
-    #
     KPT, X, XKPT, PATH_STR, KPT_SPEC = gen_kpath( 
-            atoms,lattice="rhombohedral type 1") # gamma > 90 degree
+            atoms,lattice=latt_name )
+
     #
     Nsegment = len(PATH_STR)
     print("Nsegment = ", Nsegment)
@@ -236,7 +124,7 @@ def test_rhombohedral():
         Nkpt = len(x)
         print(Nkpt)
         for ik in range(Nkpt):
-            sys.stdout.write("%18.10f %18.10f %18.10f\n" % (kpt[ik,0],kpt[ik,1],kpt[ik,2]))
+            sys.stdout.write("%18.10f %18.10f %18.10f: %18.10f\n" % (kpt[ik,0],kpt[ik,1],kpt[ik,2],x[ik]))
         #
         kpt_spec = np.array(kpt_spec)
         Nkpt_spec = len(path_str)
@@ -246,27 +134,8 @@ def test_rhombohedral():
                             (kpt_spec[ik,0], kpt_spec[ik,1], kpt_spec[ik,2], path_str[ik]))
 
 
+do_lattice("cubic")
+do_lattice("fcc")
+do_lattice("hexagonal")
+do_lattice("rhombohedral type 1")
 
-test_rhombohedral()
-
-#test_tetragonal()
-
-#test_monoclinic()
-
-#test_orthorhombic()
-
-#test_hexagonal()
-
-#test_bcc()
-
-#test_sc()
-
-#test_fcc()
-
-
-
-"""
-kpts = kpoint_convert(atoms.get_cell(), ckpts_kv=kpts)
-for ik in range(Nkpts):
-    sys.stdout.write('%.8f %.8f %.8f %.8f\n' % (kpts[ik,0],kpts[ik,1],kpts[ik,2],x[ik]))
-"""
